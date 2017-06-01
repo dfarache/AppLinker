@@ -2,8 +2,8 @@
 	"name" : "App Linker",
 	"description" : "An extension that opens other, linked apps, with current selections preserved",
 	"preview": "applinker.png",
-	"type" : "visualization", 
+	"type" : "visualization",
 	"icon" : "extension",
 	"version": "1.0",
-	"author": "Shane Porter"
+	"author": ""
 }
