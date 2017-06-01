@@ -62,10 +62,10 @@ define(["angular", "qvangular", "qlik"], function(angular, qva, qlik) {
                         }
 
                         angular.forEach(appsToReturn, function(app) {
-                            var appConnector = qlik.openApp(qlikApp.qDocId);
+                            var appConnector = qlik.openApp(app.qDocId);
 
                             appConnector.getList('FieldList', function(reply){
-                                qlikApp.selectableItems = reply.qFieldList.qItems.map(function(o){ return o.qName; })
+                                app.selectableItems = reply.qFieldList.qItems.map(function(o){ return o.qName; })
                                 responseCount++;
 
                                 if (responseCount == appsToReturn.length) {
