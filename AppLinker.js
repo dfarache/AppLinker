@@ -1,16 +1,17 @@
 define([
     "jquery",
     "qvangular",
+    "qlik",
     "angular",
     "text!./template.html",
     "text!./AppLinker.css",
-    "qlik", "./properties/definition",
+    "./properties/definition",
     "./services/linkerService",
     "./lib/external/jquery.popupoverlay"
 ],
 
 // aliasing array elements as params:
-function($, qva, a, template, css, qlik, definition, linkerService) {
+function($, qva, qlik, a, template, css, definition, linkerService) {
 
     // advised:
     'use strict';
