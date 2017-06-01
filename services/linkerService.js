@@ -21,37 +21,20 @@ define(["angular", "qvangular", "qlik"], function(a, b, qlik) {
             };
 
             return {
-                 
+
                 getAppItems: function(apps) {
-
                     var appsToFind = [];
-                    
-                    if (apps.app1 !== undefined && apps.app1.length > 0 && apps.app1Sheet.length > 0)
-                        appsToFind.push({
-                            app: apps.app1,
-                            sheet: apps.app1Sheet
-                        });
-                    if (apps.app2 !== undefined && apps.app2.length > 0 && apps.app2Sheet.length > 0)
-                        appsToFind.push({
-                            app: apps.app2,
-                            sheet: apps.app2Sheet
-                        });
-                    if (apps.app3 !== undefined && apps.app3.length > 0 && apps.app3Sheet.length > 0)
-                        appsToFind.push({
-                            app: apps.app3,
-                            sheet: apps.app3Sheet
-                        });
-                    if (apps.app4 !== undefined && apps.app4.length > 0 && apps.app4Sheet.length > 0)
-                        appsToFind.push({
-                            app: apps.app4,
-                            sheet: apps.app4Sheet
-                        });
-                    if (apps.app5 !== undefined && apps.app5.length > 0 && apps.app5Sheet.length > 0)
-                        appsToFind.push({
-                            app: apps.app5,
-                            sheet: apps.app5Sheet
-                        });
+                    var maxNumberApps = 5;
+                    var app, sheet;
 
+                    for(var i=1; i<=maxNumberApps; i++) {
+                          app = apps['app' + i];
+                          sheet = apps['app' + i + 'Sheet'];
+
+                          if(app !== undefined && app.length > 0 && sheet.length > 0){
+                              appsToFind.push({ app: app, sheet: sheet });
+                          }
+                    }
                     return appsToFind;
                 },
 
