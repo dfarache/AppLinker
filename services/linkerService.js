@@ -42,32 +42,24 @@ define(["angular", "qvangular", "qlik"], function(angular, qva, qlik) {
                     var appsToReturn = []
                     var deferred = q.defer();
                     var responseCount = 0;
+                    var i=0, j=0;
 
-                    // get the apps list from the API:
                     qlik.getAppList(function(reply) {
+                        appItems = _.sortBy(appItems, ['app']);
+                        reply = _.sortBy(reply, ['qDocName']);
 
-                        // and now loop through to see if any are the ones we want:
-                        angular.forEach(appItems, function(currentAppToFind, key) {
-
-                            // does it exist?
-                            angular.forEach(reply, function(qlikApp, qlikAppKey) {
-
-                                if (currentAppToFind.app === qlikApp.qTitle) {
-
-                                    // assign an image path for the app:
-                                    if (typeof qlikApp.qMeta.thumbnail !== 'undefined' && qlikApp.qMeta.thumbnail !== "") {
-                                        qlikApp.thumbnail = qlikApp.qMeta.thumbnail;
-                                    } else {
-                                        qlikApp.thumbnail = '/extensions/AppLinker/img/app.png';
-                                    }
-
-                                    // add the sheet:
-                                    qlikApp.sheet = currentAppToFind.sheet;
-
-                                    appsToReturn.push(qlikApp);
-                                }
-                            });
-                        });
+                        // find intersection of sorted arrays
+                        while(i < appItems.length && j < reply.length){
+                            if(appItems[i].app > reply[j].qDocName) { j++; }
+                            if(appItems[i].app < reply[j].qDocName) { i++; }
+                            else {
+                                var qlikApp = reply[j];
+                                qlikApp.thumbnail = (qlikApp.qMeta.thumbnail == null || qlikApp.qMeta.thumbnail.length === 0) ?
+                                    '/extensions/AppLinker/img/app.png' : qlikApp.qMeta.thumbnail
+                                appsToReturn.push(qlikApp)
+                                i++; j++;
+                            }
+                        }
 
                         // now get the details for the found apps:
                         ///////////////////////////////////////////////////////////////////////////////////////////
