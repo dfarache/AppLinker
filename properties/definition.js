@@ -54,7 +54,7 @@ define(['qlik', 'ng!$q'], function(qlik, $q) {
             ref: 'app1',
             defaultValue: '',
             component: 'dropdown',
-            options: function (a,b) {
+            options: function () {
                 return appList;
             }
         }
@@ -71,6 +71,6 @@ define(['qlik', 'ng!$q'], function(qlik, $q) {
             }
         }
     }
-    
+
     return properties;
 });
