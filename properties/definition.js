@@ -13,12 +13,25 @@ define(['qlik', 'ng!$q'], function(qlik, $q) {
                 });
             return defer.resolve(appList);
         });
-
         return defer.promise;
     }
-    
-    var appList = getAppList();
 
+    function getSheetsList(appId){
+        var defer = $q.defer();
+        var selectedApp = qlik.openApp(appId);
+
+        selectedApp.getAppObjectList('sheet', function(reply){
+            selectedApp.close();
+            var sheets = reply.qAppObjectList.qItems.map(function(o){
+                return { label: o.qData.title, value: o.qData.title };
+            });
+
+            return defer.resolve(sheets);
+        });
+        return defer.promise;
+    }
+
+    var appList = getAppList();
     return {
         type: "items",
         component: "accordion",
@@ -40,7 +53,13 @@ define(['qlik', 'ng!$q'], function(qlik, $q) {
                     app1Sheet: {
                         type: "string",
                         label: "Target sheet ID",
-                        ref: "app1Sheet"
+                        ref: "app1Sheet",
+                        defaultValue: undefined,
+                        component: "dropdown",
+                        options: function(props) {
+                            return (props.app1.length > 0) ? getSheetsList(props.app1)
+                                : [{ label: '<Select an app>', value: '' }];
+                        }
                     }
                 }
             },
@@ -61,7 +80,13 @@ define(['qlik', 'ng!$q'], function(qlik, $q) {
                     app2Sheet: {
                         type: "string",
                         label: "Target sheet ID",
-                        ref: "app2Sheet"
+                        ref: "app2Sheet",
+                        defaultValue: "",
+                        component: "dropdown",
+                        options: function(props) {
+                            return (props.app2.length > 0) ? getSheetsList(props.app2)
+                                : [{ label: '<Select an app>', value: '' }];
+                        }
                     }
                 }
             },
@@ -82,7 +107,13 @@ define(['qlik', 'ng!$q'], function(qlik, $q) {
                     app3Sheet: {
                         type: "string",
                         label: "Target sheet ID",
-                        ref: "app3Sheet"
+                        ref: "app3Sheet",
+                        defaultValue: "",
+                        component: "dropdown",
+                        options: function(props) {
+                            return (props.app3.length > 0) ? getSheetsList(props.app3)
+                                : [{ label: '<Select an app>', value: '' }];
+                        }
                     }
                 }
             },
@@ -103,7 +134,13 @@ define(['qlik', 'ng!$q'], function(qlik, $q) {
                     app4Sheet: {
                         type: "string",
                         label: "Target sheet ID",
-                        ref: "app4Sheet"
+                        ref: "app4Sheet",
+                        defaultValue: "",
+                        component: "dropdown",
+                        options: function(props) {
+                            return (props.app4.length > 0) ? getSheetsList(props.app4)
+                                : [{ label: '<Select an app>', value: '' }];
+                        }
                     }
                 }
             },
@@ -114,7 +151,12 @@ define(['qlik', 'ng!$q'], function(qlik, $q) {
                     app5: {
                         type: "string",
                         label: "Name",
-                        ref: "app5"
+                        ref: "app5",
+                        defaultValue: "",
+                        component: "dropdown",
+                        options: function(){
+                            return appList;
+                        }
                     },
                     app5Sheet: {
                         type: "string",
@@ -122,8 +164,9 @@ define(['qlik', 'ng!$q'], function(qlik, $q) {
                         ref: "app5Sheet",
                         defaultValue: "",
                         component: "dropdown",
-                        options: function(){
-                            return appList;
+                        options: function(props) {
+                            return (props.app5.length > 0) ? getSheetsList(props.app5)
+                                : [{ label: '<Select an app>', value: '' }];
                         }
                     }
                 }
