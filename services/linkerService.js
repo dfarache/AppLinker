@@ -1,4 +1,4 @@
-define(["angular", "qvangular", "qlik"], function(a, b, qlik) {
+define(["angular", "qvangular", "qlik"], function(angular, b, qlik) {
 
     "use strict";
 
@@ -38,33 +38,16 @@ define(["angular", "qvangular", "qlik"], function(a, b, qlik) {
                     return appsToFind;
                 },
 
-                getApps: function(apps, ignoreIfCurrentApp) {
-
-                    // build up a list of apps:
-                    var appsToReturn = [], initialAppsToFind = this.getAppItems(apps);
-                    var appsToFind = [];
+                getApps: function(apps, appItems) {
+                    var appsToReturn = []
                     var deferred = q.defer();
                     var responseCount = 0;
-
-                    console.log(appCache['currentApp']);
-
-                    // if( ignoreIfCurrentApp == true) {
-                    //     // remove any items from appsToFind:
-                    //     for(var initialLoop = 0; initialLoop < initialAppsToFind.length; initialLoop++)
-                    //     {
-                    //         console.log(initialAppsToFind[initialLoop]);
-                    //     }
-                    // } else {
-                    //     appsToFind = initialAppsToFind.slice();
-                    // }
-
-                    appsToFind = initialAppsToFind.slice();
 
                     // get the apps list from the API:
                     qlik.getAppList(function(reply) {
 
                         // and now loop through to see if any are the ones we want:
-                        a.forEach(appsToFind, function(currentAppToFind, key) {
+                        a.forEach(appItems, function(currentAppToFind, key) {
 
                             // does it exist?
                             a.forEach(reply, function(qlikApp, qlikAppKey) {
@@ -90,7 +73,7 @@ define(["angular", "qvangular", "qlik"], function(a, b, qlik) {
                         ///////////////////////////////////////////////////////////////////////////////////////////
 
                         a.forEach(appsToReturn, function(qlikApp, qlikAppKey) {
-                            
+
                             // get the apps and cache:
                             //var app = qlik.openApp(qlikApp.qDocId, config);
 
@@ -366,7 +349,7 @@ define(["angular", "qvangular", "qlik"], function(a, b, qlik) {
                             transferableCount += 1;
                         }
                     }
-                    
+
                     return transferableCount;
                 }
             }

@@ -50,14 +50,14 @@ function($, qva, qlik, a, template, css, definition, linkerService) {
                 });
 
                 function update() {
-
                     $scope.isLoading = true;
+                    $scope.appItems = linkerService.getAppItems($scope.layout);
 
-                    if (linkerService.getAppItems($scope.layout).length > 0) {
+                    if ($scope.appItems.length > 0) {
 
                         $timeout(function() {
 
-                            linkerService.getApps($scope.layout, $scope.layout.hideIfCurrentApp).then(function(apps) {
+                            linkerService.getApps($scope.layout, $scope.appItems).then(function(apps) {
 
                                 // clear them first:
                                 linkerService.getSelectedItemKeys().then(function(reply) {
