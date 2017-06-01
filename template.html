@@ -1,0 +1,67 @@
+<div qv-extension ng-cloak>
+
+    <div class="link" ng-show="linkedApps.length > 0 || $parent.$parent.editmode || isLoading">
+        <div class="qv-loader" style="width: 100%; height: 100%;" ng-show="isLoading && !$parent.$parent.editmode">&#160;</div>
+        <a href="javascript:void(0)" ng-show="linkedApps.length > 0 || $parent.$parent.editmode" ng-click="openStage($parent.$parent.editmode, $event)">
+            <img src="/extensions/AppLinker/img/linker.png" />
+        </a>
+    </div>
+
+    <div ng-show="((isConfiguredApps() && linkedApps.length === 0) || !isConfiguredApps()) && !isLoading">
+        <span style="font-size: 8pt">NO APPS FOUND</span>
+    </div>
+
+    <div class="applinker-transferring" id="applinker-transferring-{{$parent.options.id}}" style="display:none">
+        <div class="transferring-inner">
+            <div class="info">Please wait whilst your selection details are transferred and your app is opened</div>
+            <div class="qv-loader" style="width: 50px; height: 50px;">&#160;</div>
+        </div>
+    </div>
+
+    <!-- NEW -->
+    <div class="applinker-stage" id="applinker-stage-{{$parent.options.id}}" style="display:none">
+
+        <div class="close-applinker-stage" style="color: white; font-size: 20px; cursor: pointer">
+            <a href="javascript:void(0)" style="position: fixed;top: 50px;z-index: 9999;right: 12px;width: auto;">
+                <img src="/extensions/AppLinker/img/icon-close.png"  />
+            </a>
+        </div>
+
+        <section ng-repeat="currentApp in linkedApps track by $index">
+            <header>
+                <h2>{{currentApp.qTitle}}</h2>
+            </header>
+            <div>
+                <a class="img-frame" ng-click="openLinkedApp(currentApp, $event)" title="Open {{currentApp.qTitle}} transferring {{currentApp.transferableCount}} of {{selectedItemCount}}">
+                    <img ng-src="{{currentApp.thumbnail}}" alt="" />
+                </a>
+                <!-- {{currentApp}} -->
+                <div class="selections-panel" ng-if="currentApp.selectedItems.length > 0">
+                    <h2>Transferable selections: {{currentApp.transferableCount}} of {{selectedItemCount}}</h2>
+                    <div class="selections">
+                        <span ng-repeat="currentIntersect in currentApp.selectedItems" ng-class="currentIntersect.isTransferable ? 'transferable' : ''">{{currentIntersect.fieldName}}</span>
+                    </div>
+
+                    <!-- <h2>Non-transferable selections</h2>
+                    <div class="non-transferable">
+                        <span ng-repeat="currentIntersect in currentApp.selectedItems" class="intersection">{{currentIntersect}}</span>
+                    </div> -->
+
+                   <!--  <p>Readymade American Apparel High Life duis yr. Pitchfork asymmetrical skateboard, incididunt twee ut DIY anim Carles keytar. Meggings hashtag swag, nihil do minim post-ironic Pitchfork quis bespoke health goth salvia. Commodo Pinterest consectetur dreamcatcher cray, adipisicing PBR veniam labore nostrud swag street art ugh. Lo-fi umami chia craft beer small batch consectetur, incididunt assumenda keytar farm-to-table occupy culpa whatever Echo Park fashion axe. Pour-over deserunt wayfarers occaecat, Brooklyn pug iPhone veniam four loko paleo post-ironic mumblecore raw denim try-hard Truffaut. Banh mi sint est accusamus lumbersexual.</p>
+
+                    <p>Salvia qui tempor, esse chambray XOXO photo booth duis. Id actually Pitchfork, direct trade 90's forage polaroid est cliche. Cupidatat meditation Pitchfork, lo-fi sartorial do synth ea tilde occupy Vice. Salvia master cleanse stumptown, non occaecat aesthetic et Truffaut hoodie sint mumblecore. Viral selvage quis fashion axe yr beard. Nulla mumblecore ennui next level, aute quis DIY four loko trust fund proident delectus. Mixtape semiotics assumenda minim small batch, plaid Odd Future VHS paleo.</p>
+
+                    <p>Sustainable fanny pack street art bespoke fashion axe, health goth distillery kale chips nulla direct trade selvage eu YOLO. Fashion axe heirloom velit, asymmetrical quis officia Marfa locavore shabby chic Etsy American Apparel banjo cornhole. Twee placeat mumblecore +1 shabby chic sriracha gastropub messenger bag Etsy mustache mlkshk, consequat yr organic. Biodiesel salvia four loko eiusmod occaecat Shoreditch normcore. Assumenda literally aliqua pop-up ex occaecat. Literally tousled master cleanse, butcher aliqua in et meggings DIY laboris locavore typewriter. Elit typewriter bespoke brunch banh mi.</p>
+ -->
+                </div>
+
+                <div class="intersections" ng-if="currentApp.intersectedItems.length === 0">
+                    <span>No current selections will be transferred</span>
+                </div>
+
+
+            </div>
+        </section>
+    </div>
+
+</div>

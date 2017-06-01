@@ -1,0 +1,21 @@
+[{
+    "qTitle": "Angular",
+    "qDocId": "C:\\Users\\ext_spt\\Documents\\Qlik\\QlikView\\Apps\\Angular.qvf",
+    "qDocName": "Angular.qvf",
+    "dimensions": ["A", "C", "D", "F"]
+}, {
+    "qTitle": "College Hoops",
+    "qDocId": "C:\\Users\\ext_spt\\Documents\\Qlik\\QlikView\\Apps\\College Hoops.qvf",
+    "qDocName": "College Hoops.qvf",
+    "dimensions": ["C", "D"]
+}, {
+    "qTitle": "Helpdesk Management",
+    "qDocId": "C:\\Users\\ext_spt\\Documents\\Qlik\\QlikView\\Apps\\Helpdesk Management.qvf",
+    "qDocName": "Helpdesk Management.qvf",
+    "dimensions": ["D", "G", "H"]
+}, {
+    "qTitle": "AppLiinkee",
+    "qDocId": "C:\\Users\\ext_spt\\Documents\\Qlik\\QlikView\\Apps\\AppLiinkee.qvf",
+    "qDocName": "AppLiinkee.qvf",
+    "dimensions": ["D", "G", "H"]
+}]
