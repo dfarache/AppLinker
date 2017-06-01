@@ -1,4 +1,4 @@
-define(["angular", "qvangular", "qlik"], function(angular, b, qlik) {
+define(["angular", "qvangular", "qlik"], function(angular, qva, qlik) {
 
     "use strict";
 
@@ -6,7 +6,7 @@ define(["angular", "qvangular", "qlik"], function(angular, b, qlik) {
         URL_SPLIT_FRAGMENT: "/sense/app/"
     };
 
-    b.service("linkerService", ["$q",
+    qva.service("linkerService", ["$q",
         function(q) {
 
             var appCache = {};
@@ -47,10 +47,10 @@ define(["angular", "qvangular", "qlik"], function(angular, b, qlik) {
                     qlik.getAppList(function(reply) {
 
                         // and now loop through to see if any are the ones we want:
-                        a.forEach(appItems, function(currentAppToFind, key) {
+                        angular.forEach(appItems, function(currentAppToFind, key) {
 
                             // does it exist?
-                            a.forEach(reply, function(qlikApp, qlikAppKey) {
+                            angular.forEach(reply, function(qlikApp, qlikAppKey) {
 
                                 if (currentAppToFind.app === qlikApp.qTitle) {
 
@@ -72,7 +72,7 @@ define(["angular", "qvangular", "qlik"], function(angular, b, qlik) {
                         // now get the details for the found apps:
                         ///////////////////////////////////////////////////////////////////////////////////////////
 
-                        a.forEach(appsToReturn, function(qlikApp, qlikAppKey) {
+                        angular.forEach(appsToReturn, function(qlikApp, qlikAppKey) {
 
                             // get the apps and cache:
                             //var app = qlik.openApp(qlikApp.qDocId, config);
@@ -83,12 +83,12 @@ define(["angular", "qvangular", "qlik"], function(angular, b, qlik) {
                         });
 
                         // now get details:
-                        a.forEach(appsToReturn, function(qlikApp, qlikAppKey){
+                        angular.forEach(appsToReturn, function(qlikApp, qlikAppKey){
                             var items = [];
 
                             appCache[qlikApp.qDocId].getList("FieldList", function(reply) {
 
-                                a.forEach(reply.qFieldList.qItems, function(item, key) {
+                                angular.forEach(reply.qFieldList.qItems, function(item, key) {
                                     items.push(item.qName);
 
                                    // console.log(item.qName);
@@ -131,7 +131,7 @@ define(["angular", "qvangular", "qlik"], function(angular, b, qlik) {
                         var selections = [];
 
                         // this gives us the name of the field:
-                        a.forEach(reply.qSelectionObject.qSelections, function(value, key) {
+                        angular.forEach(reply.qSelectionObject.qSelections, function(value, key) {
 
                             var qField = value.qField;
 
@@ -163,7 +163,7 @@ define(["angular", "qvangular", "qlik"], function(angular, b, qlik) {
                         var selections = [];
 
                         // this gives us the name of the field:
-                        a.forEach(reply.qSelectionObject.qSelections, function(value, key) {
+                        angular.forEach(reply.qSelectionObject.qSelections, function(value, key) {
                             selections.push(value.qField);
 
                             //console.log("Selection: ", value.qField);
@@ -178,7 +178,7 @@ define(["angular", "qvangular", "qlik"], function(angular, b, qlik) {
 
                             var responseCount = 0;
 
-                            a.forEach(selections, function(currentFieldName, i) {
+                            angular.forEach(selections, function(currentFieldName, i) {
 
                                 var currentSelectedValues = [];
                                 var qFieldDefs = [];
@@ -247,7 +247,7 @@ define(["angular", "qvangular", "qlik"], function(angular, b, qlik) {
                     // we have a dict, so work with it:
                     // array of:
                     // { key : 'Country', values : ['China', 'Russian Federation'] }
-                    a.forEach(dict, function(value, key) {
+                    angular.forEach(dict, function(value, key) {
 
                         // get the field list for the current value.key (which is the selection identifier):
                         var qFieldDefs = [];
