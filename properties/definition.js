@@ -36,9 +36,8 @@ define(['qlik', 'ng!$q'], function(qlik, $q) {
     var properties = {
         type: "items",
         component: "accordion",
-        items: {
-            settings: { uses: 'settings' }
-        }
+        items: {},
+        settings: { uses: 'settings' }
     }
 
     for(var i=1; i<=maxNumberApps; i++){
