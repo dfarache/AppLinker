@@ -61,46 +61,19 @@ define(["angular", "qvangular", "qlik"], function(angular, qva, qlik) {
                             }
                         }
 
-                        // now get the details for the found apps:
-                        ///////////////////////////////////////////////////////////////////////////////////////////
+                        angular.forEach(appsToReturn, function(app) {
+                            var appConnector = qlik.openApp(qlikApp.qDocId);
 
-                        angular.forEach(appsToReturn, function(qlikApp, qlikAppKey) {
-
-                            // get the apps and cache:
-                            //var app = qlik.openApp(qlikApp.qDocId, config);
-
-                            var app = qlik.openApp(qlikApp.qDocId);
-
-                            appCache[qlikApp.qDocId] = app;
-                        });
-
-                        // now get details:
-                        angular.forEach(appsToReturn, function(qlikApp, qlikAppKey){
-                            var items = [];
-
-                            appCache[qlikApp.qDocId].getList("FieldList", function(reply) {
-
-                                angular.forEach(reply.qFieldList.qItems, function(item, key) {
-                                    items.push(item.qName);
-
-                                   // console.log(item.qName);
-                                });
-
-                              //  console.log("************************************");
-
-                                qlikApp.selectableItems = items;
-
+                            appConnector.getList('FieldList', function(reply){
+                                qlikApp.selectableItems = reply.qFieldList.qItems.map(function(o){ return o.qName; })
                                 responseCount++;
 
                                 if (responseCount == appsToReturn.length) {
                                     deferred.resolve(appsToReturn);
                                 }
-                            });
+                            })
                         });
-
-                        ///////////////////////////////////////////////////////////////////////////////////////////
                     });
-
                     return deferred.promise;
                 },
                 ///////////////////////////////////////////////////////////////////////////////////////////
