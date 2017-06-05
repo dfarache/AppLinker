@@ -65,7 +65,7 @@ define(["angular", "qvangular", "qlik"], function(angular, qva, qlik) {
                             var appConnector = qlik.openApp(app.qDocId);
 
                             appConnector.getList('FieldList', function(reply){
-                                app.selectableItems = reply.qFieldList.qItems.map(function(o){ return o.qName; })
+                                app.selectableItems = reply.qFieldList.qItems.map(function(o){ return o.qName; }).sort()
                                 responseCount++;
 
                                 if (responseCount == appsToReturn.length) {
