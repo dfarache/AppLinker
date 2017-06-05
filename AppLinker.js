@@ -58,31 +58,23 @@ function($, qva, qlik, angular, template, css, definition, linkerService) {
                         $timeout(function() {
 
                             linkerService.getApps($scope.layout, $scope.appItems).then(function(apps) {
-
-                                // clear them first:
-                                linkerService.getSelectedItemKeys().then(function(reply) {
-
-                                    $scope.selectedItemCount = reply.length;
-
-                                    // link through each of the linkedApps to determine which items
-                                    // are in the current selections:
-                                    angular.forEach($scope.linkedApps, function(currentLinkedApp, key) {
-
-                                        currentLinkedApp.selectedItems = linkerService.intersect(reply, currentLinkedApp.selectableItems);
-                                        currentLinkedApp.transferableCount = linkerService.getTransferableCount(currentLinkedApp.selectedItems);
-
-                                    });
-
-                                });
-
                                 $scope.linkedApps = apps;
-                                $scope.isLoading = false;
+
+                                return linkerService.getSelectedItemKeys();
+
+                            }).then(function(currentSelections){
+
+                                angular.forEach($scope.linkedApps, function(currentLinkedApp, key) {                        
+                                    currentLinkedApp.selectedItems = linkerService.intersect(currentSelections, currentLinkedApp.selectableItems);
+                                    currentLinkedApp.transferableCount = linkerService.getTransferableCount(currentLinkedApp.selectedItems);
+                                });
 
                                 // don't allow zoom in:
                                 $(".qv-object-AppLinker").parent().find(".icon-zoom-in").remove();
-
+                                $scope.isLoading = false;
+                                $scope.selectedItemCount = currentSelections.length;
                             });
-                        }, 500);
+                        }, 1500);
                     } else {
                         // no configured apps:
                         $scope.linkedApps = [];
