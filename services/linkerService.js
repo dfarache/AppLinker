@@ -274,17 +274,9 @@ define(["angular", "qvangular", "qlik"], function(angular, qva, qlik) {
                 },
 
                 getTransferableCount: function(items) {
-
-                    var transferableCount = 0;
-
-                    for(var itemLoop = 0; itemLoop < items.length; itemLoop++)
-                    {
-                        if( items[itemLoop].isTransferable === true){
-                            transferableCount += 1;
-                        }
-                    }
-
-                    return transferableCount;
+                    return items.filter(function(o){
+                        return o.isTransferable;
+                    }).length;
                 }
             }
         }
