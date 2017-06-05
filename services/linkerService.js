@@ -132,81 +132,16 @@ define(["angular", "qvangular", "qlik"], function(angular, qva, qlik) {
                 },
                 ///////////////////////////////////////////////////////////////////////////////////////////
                 makeSelections: function(appId, dict) {
+                    if(dict.length === 0) { return; }
 
-                    var deferred = q.defer();
+                    var remoteApp = qlik.openApp(appId);
+                    remoteApp.clearAll();
 
-                    config.identity = Math.random().toString(36).substring(2, 10);
-                    var appSelections = qlik.openApp(appId, config);
-
-                    console.log("Opening app with config of: ", config);
-                    //var appSelections = appCache[appId];
-
-                    if (dict == null)
-                        return;
-
-                    var responseCount = 0;
-                    var selectionDict = [];
-
-                    // initially, clear all selections in the app:
-                    appSelections.clearAll();
-
-                    // we have a dict, so work with it:
-                    // array of:
-                    // { key : 'Country', values : ['China', 'Russian Federation'] }
-                    angular.forEach(dict, function(value, key) {
-
-                        // get the field list for the current value.key (which is the selection identifier):
-                        var qFieldDefs = [];
-                        qFieldDefs.push(value.key);
-
-                        var query = {
-                            "qDef": {
-                                "qFieldDefs": qFieldDefs
-                            },
-                            "qInitialDataFetch": [{
-                                qTop: 0,
-                                qLeft: 0,
-                                qHeight: 500,
-                                qWidth: 1
-                            }]
-                        };
-
-                        appSelections.createList(query, function(reply) {
-
-                            responseCount++;
-
-                            var qElemNumbers = [];
-
-                            $.each(reply.qListObject.qDataPages[0].qMatrix, function(listKey, listValue) {
-
-                                $.each(value.values, function(selectionKey, selectionValue) {
-
-                                    if (selectionValue === listValue[0].qText) {
-                                        qElemNumbers.push(listValue[0].qElemNumber);
-                                    }
-
-                                });
-                            });
-
-                            selectionDict.push({
-                                key: value.key,
-                                values: qElemNumbers
-                            });
-
-                            if (responseCount == dict.length) {
-
-                                $.each(selectionDict, function(i, currentFieldDetails) {
-                                    appSelections.field(currentFieldDetails.key).select(currentFieldDetails.values, true, true);
-                                });
-
-                                // all done:
-                                deferred.resolve();
-
-                            }
-                        });
+                    dict.forEach(function(info){
+                        var field = remoteApp.field(info.key);
+                        field.selectValues(info.values);
+                        console.log(info.key, info.values);
                     });
-
-                    return deferred.promise;
                 },
 
                 intersect: function(selectedFields, linkedAppFields) {
