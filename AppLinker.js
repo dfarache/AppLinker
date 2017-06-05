@@ -70,8 +70,6 @@ function($, qva, qlik, angular, template, css, definition, linkerService) {
                                     currentLinkedApp.transferableCount = linkerService.getTransferableCount(currentLinkedApp.selectedItems);
                                 });
 
-                                // don't allow zoom in:
-                                $(".qv-object-AppLinker").parent().find(".icon-zoom-in").remove();
                                 $scope.isLoading = false;
                                 $scope.selectedItemCount = currentSelections.length;
                             });
