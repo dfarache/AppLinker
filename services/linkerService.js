@@ -87,30 +87,15 @@ define(["angular", "qvangular", "qlik"], function(angular, qva, qlik) {
                 getSelectedItemKeys: function() {
 
                     var deferred = q.defer();
-                    var app = appCache['currentApp'],
-                        //qlik.currApp(),
-                        dict = [];
+                    var app = appCache['currentApp'];
+                    var fieldRegexp = /=?\[?([\w\W]*)\]?/i;
 
                     app.getList("CurrentSelections", function(reply) {
-
-                        var selections = [];
-
-                        // this gives us the name of the field:
-                        angular.forEach(reply.qSelectionObject.qSelections, function(value, key) {
-
-                            var qField = value.qField;
-
-                            if( qField.indexOf("=[", 0) == 0) {
-                                // remove first two characters and last:
-                                // =[Qlik.Partner] => Qlik.Partner
-                                qField = qField.substring(2, qField.length - 1);
-                            }
-
-                            selections.push(qField);
+                        var selections = reply.qSelectionObject.qSelections.map(function(sel){
+                            return fieldRegexp.exec(sel.qField)[1];
                         });
 
                         deferred.resolve(selections);
-
                     });
 
                     return deferred.promise;
