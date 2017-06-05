@@ -81,16 +81,12 @@ function($, qva, qlik, angular, template, css, definition, linkerService) {
                     }
                 };
 
-                $scope.$watch("$parent.$parent.editmode", function(newValue, oldValue) {
-                    // leaving edit mode:
-                    if (!newValue && oldValue) {
-                        update();
-                    }
-                }, true);
-
+                $scope.isInEditMode = function(){
+                    return qlik.navigation.getMode() === 'edit';
+                }
 
                 $scope.isConfiguredApps = function() {
-                    return linkerService.getAppItems($scope.layout).length > 0;
+                    return $scope.appItems.length > 0;
                 }
 
                 $scope.openLinkedApp = function(application, e) {
