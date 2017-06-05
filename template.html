@@ -37,7 +37,7 @@
                 </a>
                 <!-- {{currentApp}} -->
                 <div class="selections-panel" ng-if="currentApp.selectedItems.length > 0">
-                    <h2>Transferable selections: {{currentApp.transferableCount}} of {{selectedItemCount}}</h2>
+                    <h2>We can transfer {{currentApp.transferableCount}}  out of the {{currentApp.transferableCount}} selections you have made</h2>
                     <div class="selections">
                         <span ng-repeat="currentIntersect in currentApp.selectedItems" ng-class="currentIntersect.isTransferable ? 'transferable' : ''">{{currentIntersect.fieldName}}</span>
                     </div>
