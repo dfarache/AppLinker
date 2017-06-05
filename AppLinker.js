@@ -58,13 +58,14 @@ function($, qva, qlik, angular, template, css, definition, linkerService) {
                         $timeout(function() {
 
                             linkerService.getApps($scope.layout, $scope.appItems).then(function(apps) {
+                                return linkerService.addFieldsToApps(apps);
+                            }).then(function(apps){
                                 $scope.linkedApps = apps;
 
                                 return linkerService.getSelectedItemKeys();
-
                             }).then(function(currentSelections){
 
-                                angular.forEach($scope.linkedApps, function(currentLinkedApp, key) {                        
+                                angular.forEach($scope.linkedApps, function(currentLinkedApp, key) {
                                     currentLinkedApp.selectedItems = linkerService.intersect(currentSelections, currentLinkedApp.selectableItems);
                                     currentLinkedApp.transferableCount = linkerService.getTransferableCount(currentLinkedApp.selectedItems);
                                 });

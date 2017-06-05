@@ -41,7 +41,6 @@ define(["angular", "qvangular", "qlik"], function(angular, qva, qlik) {
                 getApps: function(apps, appItems) {
                     var appsToReturn = []
                     var deferred = q.defer();
-                    var responseCount = 0;
                     var i=0, j=0;
 
                     qlik.getAppList(function(reply) {
@@ -60,23 +59,25 @@ define(["angular", "qvangular", "qlik"], function(angular, qva, qlik) {
                                 i++; j++;
                             }
                         }
-
-                        angular.forEach(appsToReturn, function(app) {
-                            var appConnector = qlik.openApp(app.qDocId);
-
-                            appConnector.getList('FieldList', function(reply){
-                                app.selectableItems = reply.qFieldList.qItems.map(function(o){ return o.qName; }).sort()
-                                responseCount++;
-
-                                if (responseCount == appsToReturn.length) {
-                                    deferred.resolve(appsToReturn);
-                                }
-                            })
-                        });
+                        deferred.resolve(appsToReturn);
                     });
                     return deferred.promise;
                 },
-                ///////////////////////////////////////////////////////////////////////////////////////////
+
+                addFieldsToApps: function(apps){
+                    var promises = apps.map(function(app){
+                        var deferred = q.defer();
+
+                        qlik.openApp(app.qDocId).getList('FieldList', function(reply){
+                            app.selectableItems = reply.qFieldList.qItems.map(function(o){ return o.qName; }).sort();
+
+                            deferred.resolve(app);
+                        });
+                        return deferred.promise
+                    })
+                    return q.all(promises);
+                },
+
                 openApp: function(currentUrl, appId, sheet) {
 
                     var urlPrefix = currentUrl.substr(0, currentUrl.indexOf(settings.URL_SPLIT_FRAGMENT)) + settings.URL_SPLIT_FRAGMENT;
@@ -85,7 +86,6 @@ define(["angular", "qvangular", "qlik"], function(angular, qva, qlik) {
                 },
                 ///////////////////////////////////////////////////////////////////////////////////////////
                 getSelectedItemKeys: function() {
-
                     var deferred = q.defer();
                     var app = appCache['currentApp'];
                     var fieldRegexp = /=?\[?([\w\W]*)\]?/i;
