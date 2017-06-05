@@ -64,11 +64,7 @@ function($, qva, qlik, angular, template, css, definition, linkerService) {
 
                                 return linkerService.getSelectedItemKeys();
                             }).then(function(currentSelections){
-
-                                angular.forEach($scope.linkedApps, function(currentLinkedApp, key) {
-                                    currentLinkedApp.selectedItems = linkerService.intersect(currentSelections, currentLinkedApp.selectableItems);
-                                    currentLinkedApp.transferableCount = linkerService.getTransferableCount(currentLinkedApp.selectedItems);
-                                });
+                                $scope.linkedApps = linkerService.addTransferableSelectionsToApps(currentSelections, $scope.linkedApps);
 
                                 $scope.isLoading = false;
                                 $scope.selectedItemCount = currentSelections.length;
@@ -144,16 +140,8 @@ function($, qva, qlik, angular, template, css, definition, linkerService) {
                     if($scope.isInEditMode()) return;
 
                     // update the intersected items:
-                    linkerService.getSelectedItemKeys().then(function(reply) {
-
-                        // link through each of the linkedApps to determine which items
-                        // are in the current selections:
-                        angular.forEach($scope.linkedApps, function(currentLinkedApp, key) {
-
-                            currentLinkedApp.selectedItems = linkerService.intersect(reply, currentLinkedApp.selectableItems);
-                            currentLinkedApp.transferableCount = linkerService.getTransferableCount(currentLinkedApp.selectedItems);
-                        });
-
+                    linkerService.getSelectedItemKeys().then(function(currentSelections) {
+                        $scope.linkedApps = linkerService.addTransferableSelectionsToApps(currentSelections, $scope.linkedApps);
                     });
 
                     var stage = "#applinker-stage-" + $scope.$parent.options.id;

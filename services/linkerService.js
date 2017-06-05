@@ -78,6 +78,15 @@ define(["angular", "qvangular", "qlik"], function(angular, qva, qlik) {
                     return q.all(promises);
                 },
 
+                addTransferableSelectionsToApps: function(currentSelections, linkedApps) {
+                    return linkedApps.map(function(currentLinkedApp) {
+                        currentLinkedApp.selectedItems = this.intersect(currentSelections, currentLinkedApp.selectableItems);
+                        currentLinkedApp.transferableCount = this.getTransferableCount(currentLinkedApp.selectedItems);
+
+                        return currentLinkedApp;
+                    }.bind(this));
+                },
+
                 openApp: function(currentUrl, appId, sheet) {
 
                     var urlPrefix = currentUrl.substr(0, currentUrl.indexOf(settings.URL_SPLIT_FRAGMENT)) + settings.URL_SPLIT_FRAGMENT;
