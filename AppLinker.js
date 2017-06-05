@@ -136,19 +136,16 @@ function($, qva, qlik, angular, template, css, definition, linkerService) {
                 $scope.openStage = function(e) {
                     // stop (prevent page jump to # named anchor - relevant for mobile, scrollPos > 0)
                     e.preventDefault();
-
                     if($scope.isInEditMode()) return;
 
-                    // update the intersected items:
                     linkerService.getSelectedItemKeys().then(function(currentSelections) {
                         $scope.linkedApps = linkerService.addTransferableSelectionsToApps(currentSelections, $scope.linkedApps);
+
+                        // show the stage
+                        var stage = $("#applinker-stage-" + $scope.$parent.options.id);
+                        $(stage).appendTo(".qv-panel-stage");
+                        $(stage).fadeIn();
                     });
-
-                    var stage = "#applinker-stage-" + $scope.$parent.options.id;
-                    $(stage).appendTo(".qv-panel-stage");
-
-                    // show it!
-                    $(stage).fadeIn();
                 }
 
                 //////////////////////////////////////////////////////////////////////////////
