@@ -111,74 +111,20 @@ define(["angular", "qvangular", "qlik"], function(angular, qva, qlik) {
                 },
                 ///////////////////////////////////////////////////////////////////////////////////////////
                 getSelections: function() {
-
                     var deferred = q.defer();
-                    var app = appCache['currentApp'],
-                        //qlik.currApp(),
-                        dict = [];
+                    var app = appCache['currentApp'];
 
                     app.getList("CurrentSelections", function(reply) {
-
-                        var selections = [];
-
-                        // this gives us the name of the field:
-                        angular.forEach(reply.qSelectionObject.qSelections, function(value, key) {
-                            selections.push(value.qField);
-
-                            //console.log("Selection: ", value.qField);
+                        var dict = reply.qSelectionObject.qSelections.map(function(sel){
+                            return {
+                                key: sel.qField,
+                                values: sel.qSelectedFieldSelectionInfo.map(function(o){
+                                    return o.qName
+                                })
+                            }
                         });
 
-
-                        // are there any selections?:
-                        if (selections.length === 0) {
-                            // nothing to return since there are no selections:
-                            deferred.resolve(undefined);
-                        } else {
-
-                            var responseCount = 0;
-
-                            angular.forEach(selections, function(currentFieldName, i) {
-
-                                var currentSelectedValues = [];
-                                var qFieldDefs = [];
-                                qFieldDefs.push(currentFieldName);
-
-                                var query = {
-                                    "qDef": {
-                                        "qFieldDefs": qFieldDefs
-                                    },
-                                    "qInitialDataFetch": [{
-                                        qTop: 0,
-                                        qLeft: 0,
-                                        qHeight: 500,
-                                        qWidth: 1
-                                    }]
-                                };
-
-                                app.createList(query, function(reply) {
-
-                                    responseCount++;
-
-                                    $.each(reply.qListObject.qDataPages[0].qMatrix, function(key, value) {
-
-                                        if (value[0].qState === "S") {
-                                            currentSelectedValues.push(value[0].qText);
-                                        }
-                                    });
-
-                                    dict.push({
-                                        key: currentFieldName,
-                                        values: currentSelectedValues
-                                    });
-
-                                    if (responseCount == selections.length) {
-
-                                        // return the dictionary:
-                                        deferred.resolve(dict);
-                                    }
-                                });
-                            });
-                        }
+                        deferred.resolve(dict);
                     });
 
                     return deferred.promise;
