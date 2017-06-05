@@ -148,12 +148,10 @@ function($, qva, qlik, angular, template, css, definition, linkerService) {
                     });
                 }
 
-                //////////////////////////////////////////////////////////////////////////////
-                //
-                // get the apps based on the configuration data:
-                //
-                //////////////////////////////////////////////////////////////////////////////
-                update();
+                // TODO: update only if the extension properties have changed
+                $scope.$watch('layout', function(){
+                    update();
+                });
             }
         ]
     };
