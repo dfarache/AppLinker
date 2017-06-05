@@ -253,39 +253,23 @@ define(["angular", "qvangular", "qlik"], function(angular, qva, qlik) {
                     return deferred.promise;
                 },
 
-                intersect: function(a, b) {
-                    var d = {};
+                intersect: function(selectedFields, linkedAppFields) {
+                    var dict = {};
                     var results = [];
 
-                    if (typeof a !== "undefined" && typeof b !== "undefined") {
+                    if (typeof selectedFields !== "undefined" && typeof linkedAppFields !== "undefined") {
 
-                        for (var i = 0; i < b.length; i++) {
-                            d[b[i]] = true;
+                        for (var i = 0; i < linkedAppFields.length; i++) {
+                            dict[linkedAppFields[i]] = true;
                         }
-                        for (var j = 0; j < a.length; j++) {
-                            if (d[a[j]]){
-
-                                //console.log("Intersected: ", a[j]);
-
-                                results.push({
-                                    fieldName : a[j],
-                                    isTransferable : true
-                                });
-
-                            } else {
-
-                                //console.log("Not intersected: ", a[j]);
-
-                                results.push({
-                                    fieldName : a[j],
-                                    isTransferable : false
-                                });
-
-                            }
+                        for (var j = 0; j < selectedFields.length; j++) {
+                            results.push({
+                                fieldName : selectedFields[j],
+                                isTransferable : (dict[selectedFields[j]] === true)
+                            });
                         }
 
                     }
-
                     return results;
                 },
 
