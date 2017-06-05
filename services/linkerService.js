@@ -50,7 +50,7 @@ define(["angular", "qvangular", "qlik"], function(angular, qva, qlik) {
                         // find intersection of sorted arrays
                         while(i < appItems.length && j < reply.length){
                             if(appItems[i].app > reply[j].qDocName) { j++; }
-                            if(appItems[i].app < reply[j].qDocName) { i++; }
+                            else if(appItems[i].app < reply[j].qDocName) { i++; }
                             else {
                                 var qlikApp = reply[j];
                                 qlikApp.thumbnail = (qlikApp.qMeta.thumbnail == null || qlikApp.qMeta.thumbnail.length === 0) ?
