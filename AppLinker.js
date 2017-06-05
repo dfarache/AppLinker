@@ -11,7 +11,7 @@ define([
 ],
 
 // aliasing array elements as params:
-function($, qva, qlik, a, template, css, definition, linkerService) {
+function($, qva, qlik, angular, template, css, definition, linkerService) {
 
     // advised:
     'use strict';
@@ -66,7 +66,7 @@ function($, qva, qlik, a, template, css, definition, linkerService) {
 
                                     // link through each of the linkedApps to determine which items
                                     // are in the current selections:
-                                    a.forEach($scope.linkedApps, function(currentLinkedApp, key) {
+                                    angular.forEach($scope.linkedApps, function(currentLinkedApp, key) {
 
                                         currentLinkedApp.selectedItems = linkerService.intersect(reply, currentLinkedApp.selectableItems);
                                         currentLinkedApp.transferableCount = linkerService.getTransferableCount(currentLinkedApp.selectedItems);
@@ -163,7 +163,7 @@ function($, qva, qlik, a, template, css, definition, linkerService) {
 
                         // link through each of the linkedApps to determine which items
                         // are in the current selections:
-                        a.forEach($scope.linkedApps, function(currentLinkedApp, key) {
+                        angular.forEach($scope.linkedApps, function(currentLinkedApp, key) {
 
                             currentLinkedApp.selectedItems = linkerService.intersect(reply, currentLinkedApp.selectableItems);
                             currentLinkedApp.transferableCount = linkerService.getTransferableCount(currentLinkedApp.selectedItems);
