@@ -1,8 +1,8 @@
 <div qv-extension ng-cloak>
 
-    <div class="link" ng-show="linkedApps.length > 0 || $parent.$parent.editmode || isLoading">
-        <div class="qv-loader" style="width: 100%; height: 100%;" ng-show="isLoading && !$parent.$parent.editmode">&#160;</div>
-        <a href="javascript:void(0)" ng-show="linkedApps.length > 0 || $parent.$parent.editmode" ng-click="openStage($parent.$parent.editmode, $event)">
+    <div class="link" ng-show="isLoading || (!isLoading && linkedApps.length > 0)">
+        <div class="qv-loader" ng-show="isLoading">&#160;</div>
+        <a ng-click="openStage($parent.$parent.editmode, $event)">
             <img src="/extensions/AppLinker/img/linker.png" />
         </a>
     </div>
