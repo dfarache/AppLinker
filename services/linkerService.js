@@ -53,6 +53,7 @@ define(["angular", "qvangular", "qlik"], function(angular, qva, qlik) {
                             else if(appItems[i].app < reply[j].qDocName) { i++; }
                             else {
                                 var qlikApp = reply[j];
+                                qlikApp.sheet = appItems[i].sheet;
                                 qlikApp.thumbnail = (qlikApp.qMeta.thumbnail == null || qlikApp.qMeta.thumbnail.length === 0) ?
                                     '/extensions/AppLinker/img/app.png' : qlikApp.qMeta.thumbnail
                                 appsToReturn.push(qlikApp)
