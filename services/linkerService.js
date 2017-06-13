@@ -114,22 +114,20 @@ define(["angular", "qvangular", "qlik", "./qlikService",], function(angular, qva
                 getSelections: function() {
                     var deferred = q.defer();
                     var app = appCache['currentApp'];
-                    var selections = [];
+                    var selections = {};
 
                     app.getList("CurrentSelections", function(reply) {
                         var promises = reply.qSelectionObject.qSelections.map(function(sel){
-                            return qlikService.createList(app, [sel.qField], 1000)
+                            return qlikService.createList(app, [sel.qField])
                         });
 
-                        q.all(promises).then(function(values){                          
+                        q.all(promises).then(function(values){
                             values.forEach(function(elem) {
                                   var key = Object.keys(elem)[0];
-                                  selections.push({
-                                      key: key,
-                                      values: elem[key]
-                                          .filter(function(o){ return o[0].qState === 'S'; })
-                                          .map(function(o){ return o[0].qText; })
-                                  });
+                                  selections[key] = elem[key]
+                                      .filter(function(o){ return o[0].qState === 'S'; })
+                                      .map(function(o){ return o[0].qText; })
+                                      .sort();
                               });
                               deferred.resolve(selections);
                         });
@@ -142,11 +140,31 @@ define(["angular", "qvangular", "qlik", "./qlikService",], function(angular, qva
                     if(dict.length === 0) { return; }
 
                     var remoteApp = qlik.openApp(appId);
+                    var promises = Object.keys(dict).map(function(o){ return qlikService.createList(remoteApp, [o])});
+
                     remoteApp.clearAll();
 
-                    dict.forEach(function(info){
-                        var field = remoteApp.field(info.key);
-                        field.selectValues(info.values);
+                    q.all(promises).then(function(remoteAppFields){
+                        for(var x=0; x<remoteAppFields.length; x++) {
+                            var i=0, j=0;
+                            var elemNumbers = [];
+                            var field = Object.keys(remoteAppFields[x])[0];
+                            var elem = remoteAppFields[x][field].sort(function(a,b){
+                                if(b[0].qText < a[0].qText) { return 1; }
+                                if(b[0].qText > a[0].qText) { return -1; }
+                                else return 0;
+                            });
+
+                            while(i < dict[field].length && j < elem.length){
+                                if(elem[j][0].qText > dict[field][i]) { i++; }
+                                else if(elem[j][0].qText < dict[field][i]) { j++; }
+                                else {
+                                    elemNumbers.push(elem[j][0].qElemNumber);
+                                    i++; j++;
+                                }
+                            }
+                            remoteApp.field(field).select(elemNumbers);
+                        }
                     });
                 },
 
