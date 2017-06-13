@@ -1,5 +1,4 @@
-# App Linker
-## An extension for Qlik Sense
+# Qlik Sense Extension App Linker
 
 App Linker is an extension for Qlik Sense that transfers selections between applications.
 
