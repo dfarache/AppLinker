@@ -139,6 +139,7 @@ define(["angular", "qvangular", "qlik", "./qlikService",], function(angular, qva
                 makeSelections: function(appId, dict) {
                     if(dict.length === 0) { return; }
 
+                    var deferred = q.defer();
                     var remoteApp = qlik.openApp(appId);
                     var promises = Object.keys(dict).map(function(o){ return qlikService.createList(remoteApp, [o])});
 
@@ -164,8 +165,10 @@ define(["angular", "qvangular", "qlik", "./qlikService",], function(angular, qva
                                 }
                             }
                             remoteApp.field(field).select(elemNumbers);
+                            deferred.resolve();
                         }
                     });
+                    return deferred.promise;
                 },
 
                 intersect: function(selectedFields, linkedAppFields) {
