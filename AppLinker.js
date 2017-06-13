@@ -98,14 +98,15 @@ function($, qva, qlik, angular, template, css, definition, linkerService) {
                     e.preventDefault();
 
                     linkerService.getSelections().then(function(dict) {
+                        return linkerService.makeSelections(application.qDocId, dict);
+                    }).then(function(){
                         var stage = "#applinker-stage-" + $scope.$parent.options.id;
                         $(stage).hide();
 
                         $(transferringId).fadeOut(500, function() {
-                            linkerService.openApp(document.URL, application.qDocId, application.sheet);
-                            linkerService.makeSelections(application.qDocId, dict);
+                            linkerService.openApp(document.URL, application.qDocId, application.sheet);                            
                         });
-                    });
+                    })
                 }
 
                 $scope.openStage = function(e) {
