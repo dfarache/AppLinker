@@ -147,7 +147,6 @@ define(["angular", "qvangular", "qlik", "./qlikService",], function(angular, qva
                     dict.forEach(function(info){
                         var field = remoteApp.field(info.key);
                         field.selectValues(info.values);
-                        console.log(info.key, info.values);
                     });
                 },
 
