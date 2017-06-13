@@ -3,38 +3,43 @@
 
 App Linker is an extension for Qlik Sense that transfers selections between applications.
 
-Large Sense applications are sometimes split into several smaller applications to assist with load speed and focus the user's attention on a subset of data.
+The motivation for this extension is that it is normal to have suites of apps in Qlik Sense that have fields in common. Currently, there is no built-in way in Qlik Sense of taking a selection from one app to another, other than manually.
 
-Whilst this split has several benefits, there is currently no built-in mechanism to transer these selections between the smaller apps
+![Tabbed-Container-Extension](assets/img/AppLinkerIcon.JPG)
 
-### Configuration
+## How to use
 
-The App Linker supports up to five linked applications, each identified by a name and a target sheet ID.  The App Linker requires that each app has a name and a target sheet ID.  If either is omitted, the App will be ignored.
+You may transfer your selections by linking other applications in your Sense repository to the application in which you're working. This is, the first step when setting up the App Linker is to declare the **linked applications**.
 
-#### Name
+You may link up to five applications, each identified by the name of the application and a sheet within the app. In order to add a new app to the list of linked apps, go into edit mode and click on the App Linker object, which you should have dragged into the sheet you're working on:
 
-The name of the application is the name of the application as it appears in the hub.
+![Tabbed-Container-Extension](assets/img/NewLinkedApp.JPG)
 
-#### Target Sheet ID
+Once a pair (*appName*, *sheetName*) has been selected using the dropdowns, you are ready to transfer your current selections to that application.
 
-The ID of the sheet that should be opened when the target application is opened from the App Linker.  Finding the ID of a sheet in an app involves a modicum of detective work.
+### Transferring your selections
 
-##### Finding a sheet ID in the Desktop Edition
+Once you have a set of selections you want to transfer to another app, click on the App Linker icon. The *stage view* will be opened.
 
-If you are using the extension in the Desktop edition of Sense, you should navigate to the 'Single Object' page at  [http://localhost:4848/resources/single.html].  You should first select the destination app, and then select the desired sheet from the list.  A preview area will show on the screen, and in this area, you will see a URL.  At the end of this URL, you will see the sheet ID:
+![Tabbed-Container-Extension](assets/img/StageView.JPG)
 
-localhost:4848/resources/single.html?appid=C%3A%5CUsers%5Cext_spt%5CDocuments%5CQlik%5CSense%5CApps%5CCountries2.qvf&sheet=**LkKpjs**
+Once in this view, you will see a list with linked applications. Within each of the section corresponding to an app, you may see the fields in your current selection that can be transferred to the given application.
 
-##### Finding a sheet ID in the Server Version
+In order to open an application while transferring your current selection -if it is possible to do so-, click on the miniature of the app. In the case that you click on the miniature of an application to which no selections can be transferred, the application will be opened normally and the extension will not attempt to make the selections.
 
-Open your app and navigate to the desired sheet.  The URL should look something like this:
+## Contributing
 
-yourdomain.com/sense/app/a924066c-cbcb-402a-b18a-ec63067529cd/sheet/**6fb541f1-186d-4dbc-acf4-02f53fe773d2**/state/analysis
+1. Fork it!
+2. Create your feature branch: `git checkout -b my-new-feature`
+3. Commit your changes: `git commit -am 'Add some feature'`
+4. Push to the branch: `git push origin my-new-feature`
+5. Submit a pull request :D
 
-The sheet ID appears immediately after the /sheet/ fragment of the URL, and is highlighted.
 
-### Using the App Linker
+## License
 
-Once the App Linker has been configured, it takes a short period of time to gather field information about the linked Apps.  It uses this field information to ascertain commonality between selections made in the current app and those in a destination app.
+Copyright © 2017 Analytics Operations
 
-When the App Linker icon is clicked, the App Linker 'stage' is shown.  Each application is listed, together with the selections that can be transferred.  Non-transferable selections are also shown, but are visually distinguished.
+Released under the MIT license.
+
+***
