@@ -87,51 +87,25 @@ function($, qva, qlik, angular, template, css, definition, linkerService) {
                 }
 
                 $scope.openLinkedApp = function(application, e) {
-
                     var transferringId = "#applinker-transferring-" + $scope.$parent.options.id;
 
                     // has it already been moved?
                     if ($("body > " + transferringId).length === 0) {
-                        // transfer:
                         $(transferringId).appendTo("body");
                     }
 
-                    // show it!
                     $(transferringId).fadeIn();
-
-                    // stop!
                     e.preventDefault();
 
-                    //
-                    //$('#fadeandscale' + $scope.$parent.options.id).popup('hide');
-
                     linkerService.getSelections().then(function(dict) {
+                        var stage = "#applinker-stage-" + $scope.$parent.options.id;
+                        $(stage).hide();
 
-                            // no selections, but open app nonetheless:
-                            if (void 0 === dict) {
-                                $(transferringId).fadeOut(500, function() {
-
-                                    linkerService.openApp(document.URL, application.qDocId, application.sheet);
-                                });
-                                return;
-                            };
-
-                            // current app's selections have been made, so make them in the new app:
-                            linkerService.makeSelections(application.qDocId, dict).then(function() {
-
-                                var stage = "#applinker-stage-" + $scope.$parent.options.id;
-                                $(stage).hide();
-
-                                $(transferringId).fadeOut(500, function() {
-                                    linkerService.openApp(document.URL, application.qDocId, application.sheet);
-                                });
-                            });
-
-                        },
-                        function(b) {
-                            console.log("Something went wrong whilst retrieving selection information");
-                        }
-                    );
+                        $(transferringId).fadeOut(500, function() {
+                            linkerService.openApp(document.URL, application.qDocId, application.sheet);
+                            linkerService.makeSelections(application.qDocId, dict);
+                        });
+                    });
                 }
 
                 $scope.openStage = function(e) {
