@@ -50,7 +50,7 @@ define(['qlik', 'ng!$q'], function(qlik, $q) {
         properties.items['linkedApps' + i]['items']['app' + i] = {
             type: 'string',
             label: 'Name',
-            ref: 'app' + i,
+            ref: 'props.app' + i,
             defaultValue: '',
             component: 'dropdown',
             options: function () {
@@ -61,12 +61,12 @@ define(['qlik', 'ng!$q'], function(qlik, $q) {
         properties.items['linkedApps' + i]['items']['app' + i + 'Sheet'] = {
             type: 'string',
             label: 'Target sheet ID',
-            ref: 'app' + i + 'Sheet',
+            ref: 'props.app' + i + 'Sheet',
             defaultValue: undefined,
             component: 'dropdown',
             options: function(i){
                 return function(props) {
-                    return (props['app' + i].length > 0) ? getSheetsList(props['app' + i])
+                    return (props['props']['app' + i].length > 0) ? getSheetsList(props['props']['app' + i])
                         : [{ label: '<Select an app>', value: '' }];
                 }
             }(i)

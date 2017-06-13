@@ -52,13 +52,13 @@ function($, qva, qlik, angular, template, css, definition, linkerService) {
 
                 function update() {
                     $scope.isLoading = true;
-                    $scope.appItems = linkerService.getAppItems($scope.layout);
+                    $scope.appItems = linkerService.getAppItems($scope.layout.props);
 
                     if ($scope.appItems.length > 0) {
 
                         $timeout(function() {
 
-                            linkerService.getApps($scope.layout, $scope.appItems).then(function(apps) {
+                            linkerService.getApps($scope.layout.props, $scope.appItems).then(function(apps) {
                                 return linkerService.addFieldsToApps(apps);
                             }).then(function(apps){
                                 $scope.linkedApps = apps;
@@ -123,8 +123,7 @@ function($, qva, qlik, angular, template, css, definition, linkerService) {
                     });
                 }
 
-                // TODO: update only if the extension properties have changed
-                $scope.$watch('layout', function(){
+                $scope.$watchCollection('layout.props', function(newVal){
                     update();
                 });
             }
