@@ -1,4 +1,4 @@
-define(["angular", "qvangular", "qlik"], function(angular, qva, qlik) {
+define(["angular", "qvangular", "qlik", "./qlikService",], function(angular, qva, qlik) {
 
     "use strict";
 
@@ -6,8 +6,8 @@ define(["angular", "qvangular", "qlik"], function(angular, qva, qlik) {
         URL_SPLIT_FRAGMENT: "/sense/app/"
     };
 
-    qva.service("linkerService", ["$q",
-        function(q) {
+    qva.service("linkerService", ["$q", "qlikService",
+        function(q, qlikService) {
 
             var appCache = {};
             appCache['currentApp'] = qlik.currApp();
@@ -114,18 +114,25 @@ define(["angular", "qvangular", "qlik"], function(angular, qva, qlik) {
                 getSelections: function() {
                     var deferred = q.defer();
                     var app = appCache['currentApp'];
+                    var selections = [];
 
                     app.getList("CurrentSelections", function(reply) {
-                        var dict = reply.qSelectionObject.qSelections.map(function(sel){
-                            return {
-                                key: sel.qField,
-                                values: sel.qSelectedFieldSelectionInfo.map(function(o){
-                                    return o.qName
-                                })
-                            }
+                        var promises = reply.qSelectionObject.qSelections.map(function(sel){
+                            return qlikService.createList(app, [sel.qField], 1000)
                         });
 
-                        deferred.resolve(dict);
+                        q.all(promises).then(function(values){                          
+                            values.forEach(function(elem) {
+                                  var key = Object.keys(elem)[0];
+                                  selections.push({
+                                      key: key,
+                                      values: elem[key]
+                                          .filter(function(o){ return o[0].qState === 'S'; })
+                                          .map(function(o){ return o[0].qText; })
+                                  });
+                              });
+                              deferred.resolve(selections);
+                        });
                     });
 
                     return deferred.promise;
