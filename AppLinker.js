@@ -7,6 +7,7 @@ define([
     "text!./AppLinker.css",
     "./properties/definition",
     "./services/linkerService",
+    "./services/qlikService",
     "./lib/external/jquery.popupoverlay"
 ],
 
