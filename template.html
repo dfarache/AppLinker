@@ -11,10 +11,16 @@
         <span style="font-size: 8pt">NO APPS FOUND</span>
     </div>
 
-    <div class="applinker-transferring" id="applinker-transferring-{{$parent.options.id}}" style="display:none">
-        <div class="transferring-inner">
+    <div class="applinker-transferring" id="applinker-transferring-{{$parent.options.id}}" style="display:none">      
+        <div class="transferring-inner" ng-show="isTransferInProcess">
             <div class="info">Please wait whilst your selection details are transferred and your app is opened</div>
             <div class="qv-loader" style="width: 50px; height: 50px;">&#160;</div>
+        </div>
+        <div class="transferring-inner" ng-if="isTransferInProcess === false">
+            <div class="info">Your selections have been transferred</div>
+            <a class="lui-button lui-button--success" target="_blank"
+                ng-href="{{ getAppLink(currentApp) }}"
+                ng-click="closeStage()">Open App</a>
         </div>
     </div>
 
