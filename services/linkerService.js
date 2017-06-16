@@ -88,11 +88,10 @@ define(["angular", "qvangular", "qlik", "./qlikService",], function(angular, qva
                     }.bind(this));
                 },
 
-                openApp: function(currentUrl, appId, sheet) {
-
+                getAppLink: function(currentUrl, appId, sheet) {
                     var urlPrefix = currentUrl.substr(0, currentUrl.indexOf(settings.URL_SPLIT_FRAGMENT)) + settings.URL_SPLIT_FRAGMENT;
 
-                    window.open(urlPrefix + encodeURIComponent(appId) + '/sheet/' + sheet + '/state/analysis');
+                    return urlPrefix + encodeURIComponent(appId) + '/sheet/' + sheet + '/state/analysis';
                 },
                 ///////////////////////////////////////////////////////////////////////////////////////////
                 getSelectedItemKeys: function() {

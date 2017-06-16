@@ -97,16 +97,26 @@ function($, qva, qlik, angular, template, css, definition, linkerService) {
                     $(transferringId).fadeIn();
                     e.preventDefault();
 
+                    $scope.isTransferInProcess = true;
+                    $scope.appToTransfer = application;
+
                     linkerService.getSelections().then(function(dict) {
                         return linkerService.makeSelections(application.qDocId, dict);
                     }).then(function(){
-                        var stage = "#applinker-stage-" + $scope.$parent.options.id;
-                        $(stage).hide();
-
-                        $(transferringId).fadeOut(500, function() {
-                            linkerService.openApp(document.URL, application.qDocId, application.sheet);                            
-                        });
+                        $scope.isTransferInProcess = false;
                     })
+                }
+
+                $scope.getAppLink = function(){
+                    return linkerService.getAppLink(document.URL, $scope.appToTransfer.qDocId, $scope.appToTransfer.sheet);
+                }
+
+                $scope.closeStage = function(){
+                    var stage = "#applinker-stage-" + $scope.$parent.options.id;
+                    var transferringId = "#applinker-transferring-" + $scope.$parent.options.id;
+
+                    $(stage).hide();
+                    $(transferringId).fadeOut(500);
                 }
 
                 $scope.openStage = function(e) {
