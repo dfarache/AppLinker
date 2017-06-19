@@ -83,7 +83,7 @@ function($, qva, qlik, angular, template, css, definition, linkerService) {
                 }
 
                 $scope.isConfiguredApps = function() {
-                    return $scope.appItems.length > 0;
+                    return $scope.appItems !== undefined && $scope.appItems.length > 0;
                 }
 
                 $scope.openLinkedApp = function(application, e) {
