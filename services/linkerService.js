@@ -149,11 +149,14 @@ define(["angular", "qvangular", "qlik", "./qlikService",], function(angular, qva
                             var i=0, j=0;
                             var elemNumbers = [];
                             var field = Object.keys(remoteAppFields[x])[0];
-                            var elem = remoteAppFields[x][field].sort(function(a,b){
-                                if(b[0].qText < a[0].qText) { return 1; }
-                                if(b[0].qText > a[0].qText) { return -1; }
-                                else return 0;
-                            });
+                            var elem = remoteAppFields[x][field]
+                                .filter(function(o){
+                                    return o[0].qText !== undefined;
+                                }).sort(function(a,b){
+                                    if(b[0].qText < a[0].qText) { return 1; }
+                                    if(b[0].qText > a[0].qText) { return -1; }
+                                    else return 0;
+                                });
 
                             while(i < dict[field].length && j < elem.length){
                                 if(elem[j][0].qText > dict[field][i]) { i++; }
