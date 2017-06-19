@@ -9,7 +9,7 @@ define(['qlik', 'ng!$q'], function(qlik, $q) {
             var appList = list
                 .filter(function(app){ return app.qDocId !== currApp.id })
                 .map(function(app){
-                    return { label: app.qTitle, value: app.qDocName }
+                    return { label: app.qTitle, value: app.qDocId }
                 });
             return defer.resolve(appList);
         });

@@ -45,12 +45,12 @@ define(["angular", "qvangular", "qlik", "./qlikService",], function(angular, qva
 
                     qlik.getAppList(function(reply) {
                         appItems = _.sortBy(appItems, ['app']);
-                        reply = _.sortBy(reply, ['qDocName']);
+                        reply = _.sortBy(reply, ['qDocId']);
 
                         // find intersection of sorted arrays
                         while(i < appItems.length && j < reply.length){
-                            if(appItems[i].app > reply[j].qDocName) { j++; }
-                            else if(appItems[i].app < reply[j].qDocName) { i++; }
+                            if(appItems[i].app > reply[j].qDocId) { j++; }
+                            else if(appItems[i].app < reply[j].qDocId) { i++; }
                             else {
                                 var qlikApp = reply[j];
                                 qlikApp.sheet = appItems[i].sheet;
