@@ -55,22 +55,18 @@ function($, qva, qlik, angular, template, css, definition, linkerService) {
                     $scope.appItems = linkerService.getAppItems($scope.layout.props);
 
                     if ($scope.appItems.length > 0) {
+                        linkerService.getApps($scope.layout.props, $scope.appItems).then(function(apps) {
+                            return linkerService.addFieldsToApps(apps);
+                        }).then(function(apps){
+                            $scope.linkedApps = apps;
 
-                        $timeout(function() {
+                            return linkerService.getSelectedItemKeys();
+                        }).then(function(currentSelections){
+                            $scope.linkedApps = linkerService.addTransferableSelectionsToApps(currentSelections, $scope.linkedApps);
 
-                            linkerService.getApps($scope.layout.props, $scope.appItems).then(function(apps) {
-                                return linkerService.addFieldsToApps(apps);
-                            }).then(function(apps){
-                                $scope.linkedApps = apps;
-
-                                return linkerService.getSelectedItemKeys();
-                            }).then(function(currentSelections){
-                                $scope.linkedApps = linkerService.addTransferableSelectionsToApps(currentSelections, $scope.linkedApps);
-
-                                $scope.isLoading = false;
-                                $scope.selectedItemCount = currentSelections.length;
-                            });
-                        }, 1500);
+                            $scope.isLoading = false;
+                            $scope.selectedItemCount = currentSelections.length;
+                        });
                     } else {
                         // no configured apps:
                         $scope.linkedApps = [];
