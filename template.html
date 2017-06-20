@@ -11,7 +11,7 @@
         <span style="font-size: 8pt">NO APPS FOUND</span>
     </div>
 
-    <div class="applinker-transferring" id="applinker-transferring-{{$parent.options.id}}" style="display:none">      
+    <div class="applinker-transferring" id="applinker-transferring-{{$parent.options.id}}" style="display:none">
         <div class="transferring-inner" ng-show="isTransferInProcess">
             <div class="info">Please wait whilst your selection details are transferred and your app is opened</div>
             <div class="qv-loader" style="width: 50px; height: 50px;">&#160;</div>
@@ -34,9 +34,7 @@
         </div>
 
         <section ng-repeat="currentApp in linkedApps track by $index">
-            <header>
-                <h2>{{currentApp.qTitle}}</h2>
-            </header>
+
             <div>
                 <a class="img-frame" ng-click="openLinkedApp(currentApp, $event)" title="Open {{currentApp.qTitle}} transferring {{currentApp.transferableCount}} of {{selectedItemCount}}">
                     <img ng-src="{{currentApp.thumbnail}}" alt="" />
@@ -51,6 +49,25 @@
 
                 <div class="selections-panel intersections" ng-if="currentApp.selectedItems.length === 0">
                     <h2>You have selected 0 fields. We won't transfer any data to this app.</h2>
+                </div>
+
+                <div class="app-details">
+                  <div class="app-details-name">
+                    <span class="text" ng-attr-text="{{ currentApp.qTitle }}">
+                      {{ currentApp.qTitle }}
+                    </span>
+                  </div>
+                  <div class="details">
+                    <span>File name: </span>
+                    <span>{{ currentApp.qDocName }}</span>
+                  </div>
+                  <div class="details">
+                    <span>Data last loaded: </span>
+                    <span>{{ currentApp.qLastReloadTime | date:'MMM dd, yyyy, hh:mm a' }}</span>
+                  </div>
+                  <div class="description" ng-if="currentApp.qMeta.description && currentApp.qMeta.description.length > 0">
+                    <span>{{ currentApp.qMeta.description }}</span>
+                  </div>
                 </div>
             </div>
         </section>
