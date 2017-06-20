@@ -9,8 +9,7 @@ define(["angular", "qvangular", "qlik", "./qlikService",], function(angular, qva
     qva.service("linkerService", ["$q", "qlikService",
         function(q, qlikService) {
 
-            var appCache = {};
-            appCache['currentApp'] = qlik.currApp();
+            var thisApp = qlik.currApp(this);
 
             var config = {
                 host: window.location.hostname,
@@ -43,7 +42,7 @@ define(["angular", "qvangular", "qlik", "./qlikService",], function(angular, qva
                     var deferred = q.defer();
                     var i=0, j=0;
 
-                    qlik.getAppList(function(reply) {
+                    qlik.getGlobal().getAppList(function(reply) {
                         appItems = _.sortBy(appItems, ['app']);
                         reply = _.sortBy(reply, ['qDocId']);
 
@@ -96,10 +95,9 @@ define(["angular", "qvangular", "qlik", "./qlikService",], function(angular, qva
                 ///////////////////////////////////////////////////////////////////////////////////////////
                 getSelectedItemKeys: function() {
                     var deferred = q.defer();
-                    var app = appCache['currentApp'];
                     var fieldRegexp = /=?\[?([\w\W]*)\]?/i;
 
-                    app.getList("CurrentSelections", function(reply) {
+                    thisApp.getList("CurrentSelections", function(reply) {
                         var selections = reply.qSelectionObject.qSelections.map(function(sel){
                             return fieldRegexp.exec(sel.qField)[1];
                         });
@@ -112,12 +110,11 @@ define(["angular", "qvangular", "qlik", "./qlikService",], function(angular, qva
                 ///////////////////////////////////////////////////////////////////////////////////////////
                 getSelections: function() {
                     var deferred = q.defer();
-                    var app = appCache['currentApp'];
                     var selections = {};
 
-                    app.getList("CurrentSelections", function(reply) {
+                    thisApp.getList("CurrentSelections", function(reply) {
                         var promises = reply.qSelectionObject.qSelections.map(function(sel){
-                            return qlikService.createList(app, [sel.qField])
+                            return qlikService.createList(thisApp, [sel.qField])
                         });
 
                         q.all(promises).then(function(values){
@@ -127,7 +124,7 @@ define(["angular", "qvangular", "qlik", "./qlikService",], function(angular, qva
                                       .filter(function(o){ return o[0].qState === 'S'; })
                                       .map(function(o){ return o[0].qText; })
                                       .sort();
-                              });
+                              });                          
                               deferred.resolve(selections);
                         });
                     });

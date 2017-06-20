@@ -5,7 +5,7 @@ define(['qlik', 'ng!$q'], function(qlik, $q) {
     function getAppList(){
         var defer = $q.defer();
 
-        qlik.getAppList(function(list){
+        qlik.getGlobal().getAppList(function(list){
             var appList = list
                 .filter(function(app){ return app.qDocId !== currApp.id })
                 .map(function(app){
