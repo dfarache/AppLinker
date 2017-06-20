@@ -20,8 +20,7 @@ define(['qlik', 'ng!$q'], function(qlik, $q) {
         var defer = $q.defer();
         var selectedApp = qlik.openApp(appId);
 
-        selectedApp.getAppObjectList('sheet', function(reply){
-            selectedApp.close();
+        selectedApp.getAppObjectList('sheet', function(reply){    
             var sheets = reply.qAppObjectList.qItems.map(function(o){
                 return { label: o.qData.title, value: o.qInfo.qId };
             });
