@@ -59,8 +59,7 @@ define(["angular", "qvangular", "qlik", "./qlikService",], function(angular, qva
                                 appsToReturn.push(qlikApp)
                                 i++; j++;
                             }
-                        }
-                        console.log(appsToReturn);
+                        }                        
                         deferred.resolve(appsToReturn);
                     });
                     return deferred.promise;
