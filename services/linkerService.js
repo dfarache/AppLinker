@@ -52,13 +52,15 @@ define(["angular", "qvangular", "qlik", "./qlikService",], function(angular, qva
                             else if(appItems[i].app < reply[j].qDocId) { i++; }
                             else {
                                 var qlikApp = reply[j];
+                                console.log(qlikApp);
                                 qlikApp.sheet = appItems[i].sheet;
-                                qlikApp.thumbnail = (qlikApp.qMeta.thumbnail == null || qlikApp.qMeta.thumbnail.length === 0) ?
-                                    '/extensions/AppLinker/img/app.png' : qlikApp.qMeta.thumbnail
+                                qlikApp.thumbnail = (qlikApp.qThumbnail.qUrl == null || qlikApp.qThumbnail.qUrl.length === 0) ?
+                                    '/extensions/AppLinker/img/app.png' : qlikApp.qThumbnail.qUrl
                                 appsToReturn.push(qlikApp)
                                 i++; j++;
                             }
                         }
+                        console.log(appsToReturn);
                         deferred.resolve(appsToReturn);
                     });
                     return deferred.promise;
@@ -124,7 +126,7 @@ define(["angular", "qvangular", "qlik", "./qlikService",], function(angular, qva
                                       .filter(function(o){ return o[0].qState === 'S'; })
                                       .map(function(o){ return o[0].qText; })
                                       .sort();
-                              });                          
+                              });
                               deferred.resolve(selections);
                         });
                     });
