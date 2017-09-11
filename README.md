@@ -26,7 +26,7 @@ Once in this view, you will see a list with linked applications. Within each of 
 
 In order to open an application while transferring your current selection -if it is possible to do so-, click on the miniature of the app. In the case that you click on the miniature of an application to which no selections can be transferred, the application will be opened normally and the extension will not attempt to make the selections.
 
-## Contributing
+# Contributing
 
 1. Fork it!
 2. Create your feature branch: `git checkout -b my-new-feature`
@@ -35,7 +35,7 @@ In order to open an application while transferring your current selection -if it
 5. Submit a pull request :D
 
 
-## License
+# License
 
 Copyright © 2017 Analytics Operations
 
