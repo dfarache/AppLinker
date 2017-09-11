@@ -81,15 +81,15 @@ define(['qlik', 'ng!$q'], function(qlik, $q) {
                 type: 'string',
                 component: 'radiobuttons',
                 label: 'Type of compass icon',
-                ref: 'props.appareance.imageType',
+                ref: 'props.appareance.imageUrl',
                 options: [{
-                    value: 'simple',
+                    value: 'linker.png',
                     label: 'Simple Icon'
                 }, {
                     value: 'static',
                     label: 'Static Image'
                 }, {
-                    value: 'animated',
+                    value: 'compass.gif',
                     label: 'Animated Image'
                 }]
             }
