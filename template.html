@@ -3,7 +3,7 @@
     <div class="link" ng-show="isLoading || (!isLoading && linkedApps.length > 0)">
         <div class="qv-loader" ng-show="isLoading">&#160;</div>
         <a ng-click="openStage($event)">
-            <img src="/extensions/AppLinker/img/linker.png" />
+            <img ng-src="/extensions/AppLinker/img/{{ layout.props.appareance.imageUrl }}" />
         </a>
     </div>
 
