@@ -65,7 +65,8 @@ define(['qlik', 'ng!$q'], function(qlik, $q) {
             component: 'dropdown',
             options: function(i){
                 return function(props) {
-                    return (props['props']['app' + i].length > 0) ? getSheetsList(props['props']['app' + i])
+                    return (props['props'] != null && props['props']['app' + i] != null) ?
+                        getSheetsList(props['props']['app' + i])
                         : [{ label: '<Select an app>', value: '' }];
                 }
             }(i)
