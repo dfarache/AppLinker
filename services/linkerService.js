@@ -165,8 +165,8 @@ define(["angular", "qvangular", "qlik", "./qlikService",], function(angular, qva
                                 }
                             }
                             remoteApp.field(field).select(elemNumbers);
-                            deferred.resolve();
                         }
+                        deferred.resolve();
                     });
                     return deferred.promise;
                 },
