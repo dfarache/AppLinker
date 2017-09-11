@@ -86,7 +86,7 @@ define(['qlik', 'ng!$q'], function(qlik, $q) {
                     value: 'linker.png',
                     label: 'Simple Icon'
                 }, {
-                    value: 'static',
+                    value: 'compass-image.jpg',
                     label: 'Static Image'
                 }, {
                     value: 'compass.gif',
