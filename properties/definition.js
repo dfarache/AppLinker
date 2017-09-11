@@ -73,5 +73,28 @@ define(['qlik', 'ng!$q'], function(qlik, $q) {
         }
     }
 
+    // Add the styling settings
+    properties.items.settings =  {
+        uses: 'settings',
+        items: {
+            compassImageType: {
+                type: 'string',
+                component: 'radiobuttons',
+                label: 'Type of compass icon',
+                ref: 'props.appareance.imageType',
+                options: [{
+                    value: 'simple',
+                    label: 'Simple Icon'
+                }, {
+                    value: 'static',
+                    label: 'Static Image'
+                }, {
+                    value: 'animated',
+                    label: 'Animated Image'
+                }]
+            }
+        }
+    }
+
     return properties;
 });
