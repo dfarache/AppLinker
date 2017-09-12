@@ -2,7 +2,7 @@
 
 App Linker is an extension for Qlik Sense that transfers selections between applications.
 
-The motivation for this extension is that it is normal to have suites of apps in Qlik Sense that have fields in common. Currently, there is no built-in way in Qlik Sense of taking a selection from one app to another, other than manually.
+The motivation for this extension is that it is normal to have suites of apps in Qlik Sense that have fields in common. Currently, there is no built-in way in Qlik Sense of taking a selection from one app to another, other than manually. This feature is present in Qlik View and it was called "Document Chaining".
 
 ![Tabbed-Container-Extension](assets/img/AppLinkerIcon.JPG)
 
@@ -19,6 +19,8 @@ Once a pair (*appName*, *sheetName*) has been selected using the dropdowns, you 
 ### Transferring your selections
 
 Once you have a set of selections you want to transfer to another app, click on the App Linker icon. The *stage view* will be opened.
+
+Please bear in mind that the selected dimensions need to have the exact same name in the origin and target app. Otherwise the extension won't be able to know that these dimensions are equivalent.
 
 ![Tabbed-Container-Extension](assets/img/StageView.JPG)
 
